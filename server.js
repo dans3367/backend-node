@@ -37,7 +37,7 @@ app.use(
   cors(),
   express.json(),
   expressMiddleware(server, {
-    context: async ({ req }) => (req.headers.cookie.replace('access_token=','')),
+    context: async ({ req }) => (req),
   }),
 );
 

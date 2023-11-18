@@ -25,9 +25,9 @@ export const CampaignResolver = {
             tags: data.tags,
           };
     
-          //const response = await campaign.create(newCampaign);
+          const response = await campaign.create(newCampaign);
 
-          console.log('response',newCampaign)
+          //console.log('response',newCampaign)
     
           return newCampaign;
         },
