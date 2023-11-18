@@ -1,0 +1,68 @@
+Campaign paginate List
+=============================
+query GetCampaignList($page: Int!, $perPage: Int!) {
+  campaignList(page: $page, perPage: $perPage) {
+    data {
+      node {
+        name
+        title
+      }
+    }
+    pageInfo {
+      total
+      perPage
+      currentPage
+      lastPage
+    }
+  }
+}
+
+{
+  "page": 1,
+  "perPage": 2
+}
+
+Campaign Update by ID
+==========================
+mutation UpdateCampaign($_id: ID!, $input: UpdateCampaignInput!) {
+  updateCampaign(_id: $_id, input: $input) {
+    success
+    message
+    campaign {
+      _id
+      name
+      title
+      description
+      effective_dates {
+        startDate
+        endDate
+      }
+      delivery_method {
+        email
+        phone
+      }
+      stores
+      tags
+    }
+  }
+}
+
+
+{
+  "_id": "yourCampaignIdHere",  // Replace with the actual campaign ID
+  "input": {
+    "name": "Updated Campaign Name",
+    "title": "Updated Campaign Title",
+    "description": "Updated Campaign Description",
+    "effective_dates": {
+      "startDate": "2023-01-01",
+      "endDate": "2023-02-01"
+    },
+    "delivery_method": {
+      "email": true,
+      "phone": false
+    },
+    "stores": ["Store1", "Store2"],
+    "tags": ["Tag1", "Tag2"]
+  }
+}

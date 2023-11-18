@@ -9,7 +9,16 @@ import cors from 'cors';
 import { config } from 'dotenv';
 import { typeDefs,resolvers } from './src/graphql/index.js';
 import connectDB from './src/config/db.js';
-//import { Jwt } from 'jsonwebtoken';
+import jwt from "jsonwebtoken"
+
+export const getUser = async (token) => {
+  const secret = process.env.JWT_SECRET
+console.log('secret',secret)
+console.log('token',token)
+  const decoded = jwt.verify(token, secret)
+
+  return decoded ?? null
+}
 
 
 // for env file
@@ -37,7 +46,11 @@ app.use(
   cors(),
   express.json(),
   expressMiddleware(server, {
-    context: async ({ req }) => (req),
+    context: ({ req }) => {
+      //const token = req.get('Authorization') || ''
+      //return { user: getUser(token.replace('Bearer', ''))}
+      return req;
+    },
   }),
 );
 

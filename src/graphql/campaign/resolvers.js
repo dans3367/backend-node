@@ -1,14 +1,28 @@
 import { campaign } from "../../models/campaign.js";
+import { validate } from "../../validation/campaign.js";
 
 export const CampaignResolver = {
     Query: {
-        campaigns: async () => await campaign.find(),
+        //campaigns: async () => await campaign.find(),
+        campaignList: async (_, { page, perPage }) => {
+
+          return await campaign.paginate({},page,perPage);
+
+        }
+
+        
     },
 
     Mutation: {
         addCampaign: async (root, args, { prisma }, info) => {
           const {data} = args;
-          console.log('params',root, args, { prisma }, info)
+
+          const errors = validate(data)
+
+          if(errors) return {
+
+          }
+          
           const newCampaign = {
             name: data.name,
             title: data.title,
@@ -31,6 +45,29 @@ export const CampaignResolver = {
     
           return newCampaign;
         },
+
+        updateCampaign: async (_, { _id, input }) => {
+          
+          const errors = validate(input)
+
+          if(errors){
+              return {
+                  success: false,
+                  message: 'Invalid Date provided',
+                  campaign: null
+              };
+          }
+
+          const updateData = await campaign.findByIdAndUpdate(_id,input);
+          
+          console.log('updateData',updateData)
+
+          return {
+            success: true,
+            message: 'Success',
+            campaign: updateData
+          };
+        }
     },
 
 

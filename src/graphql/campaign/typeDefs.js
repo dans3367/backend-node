@@ -1,5 +1,6 @@
 export const CampaignTypeDefs = `#graphql
     
+    scalar JSON
     
     type EffectiveDates {
         startDate: Date!
@@ -41,12 +42,52 @@ export const CampaignTypeDefs = `#graphql
         tags: [String!]!
     }
 
-    type Query {
-        campaigns: [Campaign]
+    type PageInfo {
+        total: Int!
+        perPage: Int!
+        currentPage: Int!
+        lastPage: Int!
+        hasNextPage: Boolean!
+        hasPreviousPage: Boolean!
+        startCursor: String
+        endCursor: String
     }
     
+    type CampaignEdge {
+        cursor: String!
+        node: Campaign!
+    }
+
+    type CampaignConnection {
+        data: [CampaignEdge]!
+        pageInfo: PageInfo!
+    }
+    
+    type Response {
+        success: Boolean!
+        message: String
+        campaign: Campaign
+    }
+
+    input UpdateCampaignInput {
+        name: String 
+        title: String
+        description: String
+        effective_dates: EffectiveDatesInput
+        delivery_method: DeliveryMethodInput
+        stores: [String]
+        tags: [String]
+    }
+
+
+    type Query {
+        campaigns: [Campaign]
+        campaignList(page: Int!, perPage: Int!): CampaignConnection!
+    }
+
     type Mutation {
         addCampaign(data: AddCampaignInput!): Campaign!
+        updateCampaign(_id: ID!, input: UpdateCampaignInput!): Response!
     }
     
     scalar Date

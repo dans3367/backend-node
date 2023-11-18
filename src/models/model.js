@@ -14,8 +14,8 @@ export const modelSchema = (model_name, fields) => {
             return await model.findByIdAndUpdate(id, data, {new: true})
         },
         find: (obj = {},hideColumns = {}) => {
-            //hideColumns['password'] = 0
-            //hideColumns['_id'] = 0
+            hideColumns['password'] = 0
+            hideColumns['_id'] = 0
             return model.find(obj, hideColumns).exec();
         },
         create: async (data) => {
@@ -27,6 +27,34 @@ export const modelSchema = (model_name, fields) => {
         findOne: async (obj,hideColumns = {}) =>{
             //hideColumns['_id'] = 0
             return await model.findOne(obj,hideColumns)
+        },
+        paginate: async (filter = {}, page = 1, perPage = 5) => {
+            
+            // Calculate skip and limit for pagination
+            const skip = (page*1 - 1) * perPage;
+            const limit = perPage*1;
+
+            const query = await model.find().skip(skip).limit(limit).exec();
+
+            const total = await model.countDocuments();
+            
+
+            const obj = {
+                data: query.map((q) => ({
+                    cursor: q._id.toString(),
+                    node: q,
+                  })),
+                pageInfo: {
+                    total,
+                    perPage,
+                    currentPage: page,
+                    lastPage: Math.ceil(total / perPage),
+                    hasMorePages: page * perPage < total,
+                },
+            }
+
+            console.log('dddd',obj)
+            return obj
         }
     }
 };
