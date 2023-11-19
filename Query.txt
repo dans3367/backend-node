@@ -1,3 +1,50 @@
+Campaign Add
+=============================
+mutation AddCampaign($data: AddCampaignInput!) {
+  addCampaign(data: $data) {
+      name
+      title
+      description
+      effective_dates{
+        startDate,
+        endDate
+      }
+      delivery_method{
+        email
+        phone
+      }
+      stores
+      tags
+
+  }
+}
+
+{
+  "data": {
+    "name": "Helsinki1",
+    "title": "Helsinki Title1",
+    "description":"Helsinki description1",
+    "delivery_method": {
+      "email":true,
+      "phone":false
+    },
+    "effective_dates": {
+      "startDate": "2023-05-26",
+      "endDate": "2023-12-26"
+    },
+    "stores":[
+      "helsinki store11",
+      "helsinki store21"
+    ],
+    "tags":[
+      "helsinki tag11",
+      "helsinki tag21",
+      "helsinki tag31",
+    ]
+  }
+}
+
+
 Campaign paginate List
 =============================
 query GetCampaignList($page: Int!, $perPage: Int!) {
@@ -49,7 +96,7 @@ mutation UpdateCampaign($_id: ID!, $input: UpdateCampaignInput!) {
 
 
 {
-  "_id": "yourCampaignIdHere",  // Replace with the actual campaign ID
+  "_id": "65587911b1d70eead059ecab",  // Replace with the actual campaign ID
   "input": {
     "name": "Updated Campaign Name",
     "title": "Updated Campaign Title",
@@ -65,4 +112,43 @@ mutation UpdateCampaign($_id: ID!, $input: UpdateCampaignInput!) {
     "stores": ["Store1", "Store2"],
     "tags": ["Tag1", "Tag2"]
   }
+}
+
+Delete By ID
+=================
+query DeleteCampaignById($campaignId: String!) {
+  deleteCampaignById(campaignId: $campaignId) {
+     success
+     message
+  }
+}
+
+{
+  "campaignId":"65587909b1d70eead059ecaa"
+}
+
+
+Get Campaign By ID
+=====================
+query GetCampaignById($campaignId: String!) {
+  getCampaignById(campaignId: $campaignId) {
+      name
+      title
+      description
+      effective_dates{
+        startDate,
+        endDate
+      }
+      delivery_method{
+        email
+        phone
+      }
+      stores
+      tags
+
+  }
+}
+
+{
+  "campaignId":"65587911b1d70eead059ecab"
 }

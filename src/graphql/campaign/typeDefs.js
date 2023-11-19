@@ -69,6 +69,11 @@ export const CampaignTypeDefs = `#graphql
         campaign: Campaign
     }
 
+    type RResponse {
+        success: Boolean!
+        message: String
+    }
+
     input UpdateCampaignInput {
         name: String 
         title: String
@@ -78,11 +83,12 @@ export const CampaignTypeDefs = `#graphql
         stores: [String]
         tags: [String]
     }
-
-
+    
     type Query {
         campaigns: [Campaign]
-        campaignList(page: Int!, perPage: Int!): CampaignConnection!
+        campaignList(search: String, page: Int!, perPage: Int!): CampaignConnection!
+        getCampaignById(campaignId: String!): Campaign
+        deleteCampaignById(campaignId: String!): RResponse!
     }
 
     type Mutation {
