@@ -1,3 +1,4 @@
+import connectDB from "../../config/db.js";
 import { campaign } from "../../models/campaign.js";
 import { validate } from "../../validation/campaign.js";
 
@@ -23,11 +24,13 @@ export const CampaignResolver = {
   },
 
   Mutation: {
-    addCampaign: async (_, { data }) => {
-
+    addCampaign: async (_, { data },payload) => {
+      
       const errors = validate(data)
 
       if (errors) return null
+
+      console.log('payload',payload)
 
       const newCampaign = {
         name: data.name,
@@ -46,8 +49,6 @@ export const CampaignResolver = {
       };
 
       const response = await campaign.create(newCampaign);
-
-      //console.log('response',newCampaign)
 
       return newCampaign;
     },
