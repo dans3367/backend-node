@@ -12,6 +12,7 @@ export const CampaignTypeDefs = `#graphql
     }
     
     type Campaign {
+        id: ID
         name: String!
         title: String!
         description: String
@@ -43,10 +44,13 @@ export const CampaignTypeDefs = `#graphql
 
     type Query {
         campaigns: [Campaign]
+        getCampagin(id: ID): Campaign 
     }
     
     type Mutation {
         addCampaign(data: AddCampaignInput!): Campaign!
+        deleteCampaign(id: ID): String
+        updateCampaign(id: ID, data: AddCampaignInput): Campaign
     }
     
     scalar Date
