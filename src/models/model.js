@@ -10,6 +10,9 @@ export const modelSchema = (model_name, fields) => {
     const model = mongoose.model(model_name, mongoose.Schema(fields, { versionKey: false,timestamps: true }));
 
     return {
+        findById: async (id) => {
+            return await model.findById(id)
+        },
         findByIdAndUpdate: async (id, data) => {
             return await model.findByIdAndUpdate(id, data, { new: true })
         },
@@ -22,7 +25,7 @@ export const modelSchema = (model_name, fields) => {
             return await model.create(data);
         },
         findByIdAndRemove: async (id) => {
-            return await model.findByIdAndRemove(id);
+            return await model.findByIdAndDelete(id);
         },
         findOne: async (obj, hideColumns = {}) => {
             //hideColumns['_id'] = 0
