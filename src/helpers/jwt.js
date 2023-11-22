@@ -1,5 +1,6 @@
 
 import crypto from 'crypto';
+import jwt from "jsonwebtoken";
 
 // Example usage
 const header = {
@@ -28,38 +29,19 @@ function base64UrlEncode(str) {
 
 export function verifyJWT(token) {
     
-    let header = "";
-    let payload = "";
+
+    let payload = {};
 
     try {
+        
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+           if(!err){
+             payload = decoded;
+           }
+        })
 
-        const [encodedHeader, encodedPayload, encodedSignature] = token.split('.');
-
-        // Step 1: Verify the signature
-        const signatureInput = `${encodedHeader}.${encodedPayload}`;
-
-        const calculatedSignature = crypto.createHmac('sha256', process.env.JWT_SECRET)
-            .update(signatureInput)
-            .digest('base64')
-            .replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
-
-        // console.log('token',token);
-        // console.log('calculatedSignature',calculatedSignature);
-        // console.log('encodedSignature',encodedSignature); 
-
-        if (calculatedSignature !== encodedSignature) {
-            throw new Error('Invalid signature');
-        }
-
-
-
-        // Step 2: Decode the header and payload
-        header = JSON.parse(atob(encodedHeader));
-        payload = JSON.parse(atob(encodedPayload));
-
-        // Additional verification steps (e.g., expiration check) can be added here
-
-
+        return {payload};
+        
 
     } catch (e) {
         console.log('errrr', e.message)
