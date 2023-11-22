@@ -2,79 +2,73 @@ import { campaign } from "../../models/campaign.js";
 import { validate } from "../../validation/campaign.js";
 
 export const CampaignResolver = {
-  Query: {
+    Query: {
+        //campaigns: async () => await campaign.find(),
+        campaignList: async (_, { page, perPage }) => {
 
-    campaignList: async (_, { search, page, perPage }) => {
+          return await campaign.paginate({},page,perPage);
 
-      return await campaign.paginate({ search }, page, perPage);
+        }
+
+        
     },
 
-    getCampaignById: async (_, { campaignId }) => {
+    Mutation: {
+        addCampaign: async (root, args, { prisma }, info) => {
+          const {data} = args;
 
-      return await campaign.findById(campaignId);
+          const errors = validate(data)
 
-    },
+          if(errors) return {
 
-    deleteCampaignById: async (_, { campaignId }) => {
+          }
+          
+          const newCampaign = {
+            name: data.name,
+            title: data.title,
+            description: data.description || null,
+            effective_dates: {
+              startDate: data.effective_dates.startDate,
+              endDate: data.effective_dates.endDate,
+            },
+            delivery_method: {
+              email: data.delivery_method.email || false,
+              phone: data.delivery_method.phone || false,
+            },
+            stores: data.stores,
+            tags: data.tags,
+          };
+    
+          const response = await campaign.create(newCampaign);
 
-      return await campaign.deleteById(campaignId);
-
-    },
-  },
-
-  Mutation: {
-    addCampaign: async (_, { data }) => {
-
-      const errors = validate(data)
-
-      if (errors) return null
-
-      const newCampaign = {
-        name: data.name,
-        title: data.title,
-        description: data.description || null,
-        effective_dates: {
-          startDate: data.effective_dates.startDate,
-          endDate: data.effective_dates.endDate,
+          //console.log('response',newCampaign)
+    
+          return newCampaign;
         },
-        delivery_method: {
-          email: data.delivery_method.email || false,
-          phone: data.delivery_method.phone || false,
-        },
-        stores: data.stores,
-        tags: data.tags,
-      };
 
-      const response = await campaign.create(newCampaign);
+        updateCampaign: async (_, { _id, input }) => {
+          
+          const errors = validate(input)
 
-      //console.log('response',newCampaign)
+          if(errors){
+              return {
+                  success: false,
+                  message: 'Invalid Date provided',
+                  campaign: null
+              };
+          }
 
-      return newCampaign;
+          const updateData = await campaign.findByIdAndUpdate(_id,input);
+          
+          console.log('updateData',updateData)
+
+          return {
+            success: true,
+            message: 'Success',
+            campaign: updateData
+          };
+        }
     },
 
-    updateCampaign: async (_, { _id, input }) => {
 
-      const errors = validate(input)
-
-      if (errors) {
-        return {
-          success: false,
-          message: 'Invalid Date provided',
-          campaign: null
-        };
-      }
-
-      const updateData = await campaign.findByIdAndUpdate(_id, input);
-
-      console.log('updateData', updateData)
-
-      return {
-        success: true,
-        message: 'Success',
-        campaign: updateData
-      };
-    }
-  },
-
-
-};
+  };
