@@ -34,7 +34,7 @@ export const CampaignResolver = {
         deleteCampaign: async (root, args, { prisma }, info) => {
           const { id } = args;
           await campaign.findByIdAndRemove(id);
-          return "Campaign is removed";
+          return { status: true, message: "Campaign is removed"};
         },
         updateCampaign: async (root, args, { prisma }, info) => {
           const {data} = args;

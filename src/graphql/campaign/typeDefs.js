@@ -1,5 +1,8 @@
 export const CampaignTypeDefs = `#graphql
-    
+    type Message {
+        status: Boolean
+        message: String
+    }
     
     type EffectiveDates {
         startDate: Date!
@@ -49,7 +52,7 @@ export const CampaignTypeDefs = `#graphql
     
     type Mutation {
         addCampaign(data: AddCampaignInput!): Campaign!
-        deleteCampaign(id: ID): String
+        deleteCampaign(id: ID): Message
         updateCampaign(id: ID, data: AddCampaignInput): Campaign
     }
     
