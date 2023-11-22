@@ -30,9 +30,11 @@ export const CampaignResolver = {
 
       if (errors) return null
 
-      console.log('payload',payload)
+     // console.log('payload',payload)
 
       const newCampaign = {
+        company_id: payload.company_id,
+        user_id: payload.user_id,
         name: data.name,
         title: data.title,
         description: data.description || null,
