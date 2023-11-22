@@ -6,4 +6,3 @@ export const sendApiResponse = (res, code, message, data = {}) => {
         data
     })
 }
-

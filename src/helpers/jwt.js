@@ -69,4 +69,3 @@ export function generateJWT(payload) {
     const jwt = `${encodedHeader}.${encodedPayload}.${encodedSignature}`;
     return jwt;
 }
-

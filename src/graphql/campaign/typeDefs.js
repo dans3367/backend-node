@@ -13,7 +13,6 @@ export const CampaignTypeDefs = `#graphql
     }
     
     type Campaign {
-        id: ID
         name: String!
         title: String!
         description: String
