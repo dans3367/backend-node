@@ -41,25 +41,33 @@ const server = new ApolloServer({
 
 await server.start()
 
-let connect = true;
 const check = (req,res,next)=>{
+
+  if(req?.headers?.authorization){
+    const token = req?.headers?.authorization.replace('Bearer ', '') || '';
+        
+        const {payload} = verifyJWT(token);
+
+        if(payload){
+          req.headers['payload'] = payload;
+          next()
+          return;
+        }
+  }
   
-  //sendApiResponse(res,401,"Not accessible",{})
-  next()
+  sendApiResponse(res,401,"Not accessible",{})
+
 }
 
+app.use(cors(),check);
 
-app.use('/api',check)
 app.use(
   '/api',
-  cors(),
   express.json(),
   expressMiddleware(server, {
     context: ({ req }) => {
-      const token = req?.headers?.authorization.replace('Bearer ', '') || '';
+      const payload = req?.headers?.payload;
       
-      const {payload} = verifyJWT(token);
-
       if(payload){
         connectDB(payload.company_id);
         return payload 
