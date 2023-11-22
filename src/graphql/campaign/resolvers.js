@@ -42,11 +42,6 @@ export const CampaignResolver = {
     
           const response = await campaign.create(newCampaign);
 
-<<<<<<< HEAD
-          //console.log('response',newCampaign)
-    
-          return newCampaign;
-=======
       return await campaign.deleteById(campaignId);
 
     },
@@ -70,35 +65,13 @@ export const CampaignResolver = {
         effective_dates: {
           startDate: data.effective_dates.startDate,
           endDate: data.effective_dates.endDate,
->>>>>>> ImranDev
         },
 
         updateCampaign: async (_, { _id, input }) => {
           
           const errors = validate(input)
 
-<<<<<<< HEAD
-          if(errors){
-              return {
-                  success: false,
-                  message: 'Invalid Date provided',
-                  campaign: null
-              };
-          }
-
-          const updateData = await campaign.findByIdAndUpdate(_id,input);
-          
-          console.log('updateData',updateData)
-
-          return {
-            success: true,
-            message: 'Success',
-            campaign: updateData
-          };
-        }
-=======
       return newCampaign;
->>>>>>> ImranDev
     },
 
 
