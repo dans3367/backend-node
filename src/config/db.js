@@ -3,7 +3,10 @@ import { mongoose } from 'mongoose';
 
 const connectDB = async (company_id) => {
     try {
-      const dbName = `tenant_${company_id}`
+      let dbName = "tenant";
+      if(company_id > 0){
+        dbName = `tenant_${company_id}`
+      }
       const conn = await mongoose.connect(`${process.env.DB_URI}/${dbName}`);
       console.log(`MongoDB Connected: ${conn.connection.host}`);
       return conn;

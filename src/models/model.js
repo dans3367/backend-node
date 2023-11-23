@@ -55,14 +55,18 @@ export const modelSchema = (model_name, fields) => {
             const skip = (page * 1 - 1) * perPage;
             const limit = perPage * 1;
 
-            const query = await model.find(clause).skip(skip).limit(limit).exec();
+            const query = await model.find(clause).skip(skip).limit(limit).sort({ createdAt: -1 }).exec();
 
-            const total = await model.countDocuments();
+            let total = 0;
+            let lastPage = page;
 
-            const data = query.map((q) => ({
-                cursor: q._id.toString(),
-                node: q,
-            }))
+            if(query.length > 0)
+            {
+                total = await model.countDocuments();
+                lastPage = Math.ceil(total / perPage);
+            }
+
+            const data = query
             //console.log('query',query)            
             const obj = {
                 data: data,
@@ -70,11 +74,11 @@ export const modelSchema = (model_name, fields) => {
                     total,
                     perPage,
                     currentPage: page,
-                    lastPage: Math.ceil(total / perPage),
+                    lastPage,
                     hasMorePages: page * perPage < total,
                 },
             }
-
+            console.log('obj',obj)
             return obj
         },
         findById: async (id) => {

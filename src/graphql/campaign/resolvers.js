@@ -5,9 +5,13 @@ import { validate } from "../../validation/campaign.js";
 export const CampaignResolver = {
   Query: {
 
-    campaignList: async (_, { search, page, perPage }) => {
-
-      return await campaign.paginate({ search }, page, perPage);
+    campaignList: async (_, { search, page, perPage },payload) => {
+      if(page == 0)
+      {
+        page = 1
+      }
+      const result = await campaign.paginate({ search }, page, perPage)
+      return result;
     },
 
     getCampaignById: async (_, { campaignId }) => {

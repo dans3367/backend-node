@@ -13,6 +13,7 @@ export const CampaignTypeDefs = `#graphql
     }
     
     type Campaign {
+        id: String!
         name: String!
         title: String!
         description: String
@@ -59,7 +60,7 @@ export const CampaignTypeDefs = `#graphql
     }
 
     type CampaignConnection {
-        data: [CampaignEdge]!
+        data: [Campaign]!
         pageInfo: PageInfo!
     }
     
