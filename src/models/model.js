@@ -11,14 +11,14 @@ export const modelSchema = (model_name, fields) => {
 
     return {
         findById: async (id) => {
-            return await model.findById(id)
+            return await model.findById(new mongoose.Types.ObjectId(id))
         },
         findByIdAndUpdate: async (id, data) => {
             return await model.findByIdAndUpdate(id, data, { new: true })
         },
         find: (obj = {}, hideColumns = {}) => {
-            hideColumns['password'] = 0
-            hideColumns['_id'] = 0
+            //hideColumns['password'] = 0
+            //hideColumns['_id'] = 0
             return model.find(obj, hideColumns).sort({ createdAt: -1 }).exec();
         },
         create: async (data) => {

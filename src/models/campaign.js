@@ -2,6 +2,7 @@ import {modelSchema} from "./model.js";
 
 // campaign schema into mongodb 
 export const campaign = modelSchema("Campaign",{
+    _id: String,
     company_id:{
         type:Number,
         required:true,

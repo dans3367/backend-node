@@ -45,7 +45,6 @@ const check = (req,res,next)=>{
 
   if(req?.headers?.authorization){
     const token = req?.headers?.authorization.replace('Bearer ', '') || '';
-        
         const {payload} = verifyJWT(token);
 
         if(payload){
@@ -67,7 +66,6 @@ app.use(
   expressMiddleware(server, {
     context: ({ req }) => {
       const payload = req?.headers?.payload;
-      
       if(payload){
         connectDB(payload.company_id);
         return payload 
