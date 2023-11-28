@@ -95,6 +95,7 @@ export const CampaignTypeDefs = `#graphql
     type Mutation {
         addCampaign(data: AddCampaignInput!): Campaign!
         updateCampaign(_id: ID!, input: UpdateCampaignInput!): Response!
+        deleteCampaign(_id: ID!): RResponse!
     }
     
     scalar Date

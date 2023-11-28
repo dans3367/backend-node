@@ -28,7 +28,7 @@ export const CampaignResolver = {
 
       if (errors) return null
 
-     // console.log('payload',payload)
+      //console.log('payload',data)
 
       const newCampaign = {
         company_id: payload.company_id,
@@ -53,6 +53,12 @@ export const CampaignResolver = {
       return newCampaign;
     },
 
+    deleteCampaign: async (_, { _id },payload) => {
+
+      return await campaign.deleteById(_id);
+
+    },
+    
     updateCampaign: async (_, { _id, input }) => {
 
       const errors = validate(input)

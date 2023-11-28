@@ -1,8 +1,12 @@
 import {modelSchema} from "./model.js";
+import mongoose from "mongoose";
 
 // campaign schema into mongodb 
 export const campaign = modelSchema("Campaign",{
-    _id: String,
+    _id:{
+        type:mongoose.ObjectId,
+        required:false,
+    },
     company_id:{
         type:Number,
         required:true,
