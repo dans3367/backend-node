@@ -29,7 +29,7 @@ export const StoreTypeDefs = `#graphql
     }
 
     type StoreConnection {
-        data: [StoreEdge]!
+        data: [Store]!
         pageInfo: PageInfo!
     }
     

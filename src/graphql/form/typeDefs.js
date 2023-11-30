@@ -29,7 +29,7 @@ export const FormTypeDefs = `#graphql
     }
 
     type FormConnection {
-        data: [FormEdge]!
+        data: [Form]!
         pageInfo: PageInfo!
     }
     

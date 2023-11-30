@@ -6,7 +6,8 @@ export const FormResolver = {
   Query: {
     forms: async () => await form.find(),
     formList: async (_, { search, page, perPage }) => {
-      return await form.paginate({ search }, page, perPage);
+      const response = await form.paginate({ search }, page, perPage);
+      return response;
     },
 
     getFormById: async (_, { formId }) => {
