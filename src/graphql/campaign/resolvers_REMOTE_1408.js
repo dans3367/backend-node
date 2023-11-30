@@ -2,10 +2,14 @@ import { campaign } from "../../models/campaign.js";
 
 export const CampaignResolver = {
     Query: {
-        campaigns: async () => await campaign.find(),
-        getCampagin: async (_,{ id }, { prisma }, info) => {
-          return await campaign.findById(id);
-        }
+      campaigns: async () => await campaign.find(),
+      getCampaignById: async (_, { campaignId }) => {
+        return await campaign.findById(campaignId);
+      },
+        campaignList: async (_, { search, page, perPage }) => {
+
+          return await campaign.paginate({ search }, page, perPage);
+        },
     },
 
     Mutation: {

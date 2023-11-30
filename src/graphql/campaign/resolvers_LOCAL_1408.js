@@ -4,15 +4,14 @@ import { validate } from "../../validation/campaign.js";
 export const CampaignResolver = {
   Query: {
 
+    campaigns: async () => await campaign.find(),
     campaignList: async (_, { search, page, perPage }) => {
 
       return await campaign.paginate({ search }, page, perPage);
     },
 
     getCampaignById: async (_, { campaignId }) => {
-
       return await campaign.findById(campaignId);
-
     },
 
     deleteCampaignById: async (_, { campaignId }) => {

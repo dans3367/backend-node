@@ -17,11 +17,12 @@ export const modelSchema = (model_name, fields) => {
             return await model.findByIdAndUpdate(id, data, { new: true })
         },
         find: (obj = {}, hideColumns = {}) => {
-            hideColumns['password'] = 0
-            hideColumns['_id'] = 0
+            //hideColumns['password'] = 0
+            //hideColumns['_id'] = 0
             return model.find(obj, hideColumns).sort({ createdAt: -1 }).exec();
         },
         create: async (data) => {
+            data['_id'] = new mongoose.Types.ObjectId();
             return await model.create(data);
         },
         findByIdAndRemove: async (id) => {
@@ -32,7 +33,7 @@ export const modelSchema = (model_name, fields) => {
             return await model.findOne(obj, hideColumns)
         },
         paginate: async (filter = {}, page = 1, perPage = 5) => {
-            //console.log('filter',filter)
+            
 
             const conditions = [];
             let clause = {};
@@ -52,22 +53,22 @@ export const modelSchema = (model_name, fields) => {
             }
 
             // Calculate skip and limit for pagination
+            let lastPage = 0;
+            let total = 0;
             const skip = (page * 1 - 1) * perPage;
             const limit = perPage * 1;
-
-            const query = await model.find(clause).skip(skip).limit(limit).sort({ createdAt: -1 }).exec();
-
-            let total = 0;
-            let lastPage = page;
-
+            const query = await model.find(clause).sort({ createdAt: -1 }).skip(skip).limit(limit).exec();
+            
+            //const total = await model.find(clause).countDocuments();
+            console.log('query',query)
             if(query.length > 0)
             {
                 total = await model.countDocuments();
                 lastPage = Math.ceil(total / perPage);
             }
-
+            
             const data = query
-            //console.log('query',query)            
+                   
             const obj = {
                 data: data,
                 pageInfo: {
