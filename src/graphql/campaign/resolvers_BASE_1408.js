@@ -3,8 +3,8 @@ import { campaign } from "../../models/campaign.js";
 export const CampaignResolver = {
     Query: {
         campaigns: async () => await campaign.find(),
-        campaignList: async (_, { search, page, perPage }) => {
-          return await campaign.paginate({ search }, page, perPage);
+        campaignList: async (_, { search, page, perPage, v }) => {
+          return await campaign.paginate({ search }, page, perPage, v);
         },
         getCampaignById: async (_, { campaignId }) => {
           return await campaign.findById(campaignId);

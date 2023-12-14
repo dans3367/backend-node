@@ -87,7 +87,7 @@ export const CampaignTypeDefs = `#graphql
     
     type Query {
         campaigns: [Campaign]
-        campaignList(search: String, page: Int!, perPage: Int!): CampaignConnection!
+        campaignList(search: String, page: Int!, perPage: Int!, v: Int!): CampaignConnection!
         getCampaignById(campaignId: String!): Campaign
         deleteCampaignById(campaignId: String!): RResponse!
     }

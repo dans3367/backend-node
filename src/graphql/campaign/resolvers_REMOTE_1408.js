@@ -6,9 +6,9 @@ export const CampaignResolver = {
       getCampaignById: async (_, { campaignId }) => {
         return await campaign.findById(campaignId);
       },
-        campaignList: async (_, { search, page, perPage }) => {
+        campaignList: async (_, { search, page, perPage, v }) => {
 
-          return await campaign.paginate({ search }, page, perPage);
+          return await campaign.paginate({ search }, page, perPage, v);
         },
     },
 

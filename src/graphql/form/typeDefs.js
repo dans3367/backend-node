@@ -50,7 +50,7 @@ export const FormTypeDefs = `#graphql
     
     type Query {
         forms: [Form]
-        formList(search: String, page: Int!, perPage: Int!): FormConnection!
+        formList(search: String, page: Int!, perPage: Int!, v: Int!): FormConnection!
         getFormById(formId: String!): Form
     }
 

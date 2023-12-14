@@ -50,7 +50,7 @@ export const StoreTypeDefs = `#graphql
     
     type Query {
         stores: [Store]
-        storeList(search: String, page: Int!, perPage: Int!): StoreConnection!
+        storeList(search: String, page: Int!, perPage: Int!, v: Int!): StoreConnection!
         getStoreById(storeId: String!): Store
     }
 

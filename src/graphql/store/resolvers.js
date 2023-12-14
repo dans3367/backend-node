@@ -5,8 +5,8 @@ import { validate } from "../../validation/store.js";
 export const StoreResolver = {
   Query: {
     stores: async () => await store.find(),
-    storeList: async (_, { search, page, perPage }) => {
-      return await store.paginate({ search }, page, perPage);
+    storeList: async (_, { search, page, perPage, v }) => {
+      return await store.paginate({ search }, page, perPage, v);
     },
 
     getStoreById: async (_, { storeId }) => {

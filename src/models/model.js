@@ -32,7 +32,7 @@ export const modelSchema = (model_name, fields) => {
             //hideColumns['_id'] = 0
             return await model.findOne(obj, hideColumns)
         },
-        paginate: async (filter = {}, page = 1, perPage = 5) => {
+        paginate: async (filter = {}, page = 1, perPage = 5, v = 0) => {
             console.log('filter',filter)
 
             const conditions = [];
